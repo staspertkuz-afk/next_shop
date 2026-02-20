@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Comments from './Comments'
 import { useEffect, useState } from 'react'
+import { API } from '@/global/API'
 
 type Post = {
     _id: string
@@ -26,7 +27,7 @@ export default function PostPage({ params }: Props) {
     useEffect(() => {
         params.then(({ din }) => {
             setDin(din)
-            fetch(`http://localhost:4200/api/posts/${din}`)
+            fetch(`${API.posts}/${din}`)
                 .then(res => res.json())
                 .then(posts => {
                     setPost(posts[0])

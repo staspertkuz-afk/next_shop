@@ -85,7 +85,7 @@ export default function Header({TOK}:{TOK:boolean}) {
                                 {link.label}
                                 {isActive(link.href) && (
                                     <motion.div
-                                        className="absolute bottom-[-2px] left-0 right-0 h-0.5 bg-blue-500"
+                                        className="absolute bottom-[-3px] left-0 right-0 h-0.5 bg-blue-500"
                                         layoutId="underline"
                                         transition={{ duration: 0.3 }}
                                     />

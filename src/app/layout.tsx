@@ -13,6 +13,13 @@ export const metadata: Metadata = {
     template: "%s | nextShop",
   },
   description: "create in saspert",
+  manifest: "/manifest.json", // Путь к твоему манифесту
+};
+
+export const viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

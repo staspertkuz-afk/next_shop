@@ -1,12 +1,13 @@
 "use client"
 
+import { API } from '@/global/API';
 import { useState } from 'react'
 
 type Comment = { user: string; text: string }
 
 // Выносим логику запроса за пределы компонента (Separation of Concerns)
 async function sendCommentToApi(postId: string, comment: Comment) {
-    const res = await fetch(`http://localhost:4200/api/posts/${postId}/comments`, {
+    const res = await fetch(`${API.posts}/${postId}/comments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(comment),

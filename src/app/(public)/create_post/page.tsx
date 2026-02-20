@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { API } from '@/global/API'
 
 export default function CreatePostPage() {
     const router = useRouter()
@@ -21,7 +22,7 @@ export default function CreatePostPage() {
         setLoading(true)
 
         try {
-            const res = await fetch('http://localhost:4200/api/posts', {
+            const res = await fetch(API.posts, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
