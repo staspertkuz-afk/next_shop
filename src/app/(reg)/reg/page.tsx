@@ -1,14 +1,12 @@
 'use client';
 import { useState, useEffect, useActionState } from 'react';
 import { useForm } from 'react-hook-form'
-import { createAkk } from '@/app/lib/actions_create_akk';
-import { p } from 'motion/react-client';
 import { useRouter } from 'next/navigation'
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [text, setText] = useState('');
-  const [valid, setValid] = useState(true);
+  const [valid, setValid] = useState<string>('');
   const router = useRouter()
   const {
     register,
@@ -29,7 +27,7 @@ export default function Register() {
     return () => clearInterval(interval);
   }, []);
 
-    async function onSubmit(data:any) {
+    /* async function onSubmit(data:any) {
         console.log(data)
         const res = await createAkk(data);
         console.log(res)
@@ -42,18 +40,43 @@ export default function Register() {
         if(res.ok === 'error'){
             setValid(false)
         }
+    } */
+
+  async function submit2(data:any) {
+    console.log(data)
+    const res = await fetch('/api/reg', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    const result = await res.json()
+    console.log(555)
+    console.log(result)
+
+    if(result.message === 'Регистрация успешна'){
+      alert('успешно')
+      router.replace('/voit')
     }
+    else if(result.error === 'Пользователь уже существует'){
+      setValid('Пользователь уже существует')
+    }
+  }
 
   return (
     <div className="fixed inset-0 flex items-center justify-center px-4 bg-transparent">
-      <div className={`w-full max-w-sm border ${valid? 'border-white/20' : 'border-red-600'} p-8 rounded-xl backdrop-blur-sm transition`}>
+      <div className='fixed top-7 left-7 scale-200 cursor-pointer' onClick={() => router.replace('/')}>
+        👈
+      </div>
+      <div className={`w-full max-w-sm border ${valid ? 'border-red-600' : 'border-white/20'} p-8 rounded-xl backdrop-blur-sm transition`}>
         <h1 className="text-xl font-bold text-white mb-8 text-center uppercase tracking-[0.3em] font-mono min-h-[28px]">
           {text}
           <span className="animate-pulse ml-1">|</span>
         </h1>
         
         {/* Изменил space-y на меньшее значение, так как отступы теперь внутри контейнеров полей */}
-        <form className="space-y-2" onSubmit={handleSubmit(onSubmit)}>
+        <form className="space-y-2" onSubmit={handleSubmit(submit2)}>
           
           {/* Поле Имя */}
           <div className="flex flex-col">
@@ -116,7 +139,7 @@ export default function Register() {
             </div>
           </div>
             <div className="min-h-[10px] pt-1">
-              {!valid && <p className='text-red-500 text-[10px] font-mono leading-tight'>ошибка при создании аккаунта</p>}
+              {valid && <p className='text-red-500 text-[10px] font-mono leading-tight'>{valid}</p>}
             </div>
           <div className="pt-2">
             <button className="w-full border border-white text-white py-2 hover:bg-white hover:text-black transition-all font-bold uppercase text-[12px] font-mono">

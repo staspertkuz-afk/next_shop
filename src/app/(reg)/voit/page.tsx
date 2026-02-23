@@ -2,7 +2,6 @@
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Vxod } from '@/app/lib/actions_vxod';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +29,7 @@ export default function Login() {
     return () => clearInterval(interval);
   }, []);
 
-  async function onSubmiti(data: any) {
+  /* async function onSubmiti(data: any) {
     console.log("Данные для входа:", data);
     const res = await Vxod(data)
     if(res.ok === 'ok'){
@@ -41,8 +40,24 @@ export default function Login() {
     if(res.ok === 'error'){
         setIsvalid(res.data)
     }
-  }
+  } */
 
+  async function onSubmiti(data:any){
+    console.log(5655)
+    const res = await fetch('api/auth' , {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+    const r = await res.json()
+    if(r.message === 'успешно'){
+      alert('вход прошел успешно')
+      router.replace('/')
+    }
+  }
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center px-4 bg-transparent">
       <div className={`w-full max-w-sm border ${isValid?'border-red-500':'border-white/20'} p-8 rounded-xl backdrop-blur-sm transition`}>

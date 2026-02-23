@@ -31,8 +31,7 @@ export default function CreatePostPage() {
             })
 
             if (res.ok) {
-                router.push('/posts') 
-                router.refresh()
+                router.push('/posts')               
             } else {
                 alert('Ошибка при создании поста')
             }
@@ -104,7 +103,7 @@ export default function CreatePostPage() {
                 </motion.div>
 
                 <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    {/* <label className="block text-sm font-medium text-gray-300 mb-2">
                         Автор
                     </label>
                     <input
@@ -114,7 +113,7 @@ export default function CreatePostPage() {
                         placeholder="Ваше имя"
                         value={formData.user}
                         onChange={(e) => setFormData({ ...formData, user: e.target.value })}
-                    />
+                    /> */}
                 </motion.div>
 
                 <motion.div variants={itemVariants}>

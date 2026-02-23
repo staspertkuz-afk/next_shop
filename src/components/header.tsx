@@ -1,16 +1,25 @@
 'use client'
 
-import { Tokendel } from '@/app/lib/action_token'
+import { logout } from '@/app/lib/logout'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function Header({TOK}:{TOK:boolean}) {
+export default function Header({auth}: {auth:boolean}) {
+    const [mounted, setMounted] = useState(false)
     const router = useRouter()
     const pathname = usePathname()
     const [isOpen, setIsOpen] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    if (!mounted) {
+        return null
+    }
 
     const navLinks = [
         { href: '/glav', label: 'главная' },
@@ -21,33 +30,6 @@ export default function Header({TOK}:{TOK:boolean}) {
     ]
 
     const isActive = (href: string) => pathname === href
-
-    const logout = (t: boolean) => {
-        if(t){
-            return (
-                <motion.button 
-                    className='border-2 border-blue-600 rounded-lg px-4 py-2 hover:bg-blue-600 hover:text-white transition'
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={async () => {
-                        await Tokendel()
-                    }}
-                >
-                    выйти    
-                </motion.button>
-            )
-        }
-        return (
-            <motion.button 
-                className='border-2 border-blue-600 rounded-lg px-4 py-2 hover:bg-blue-600 hover:text-white transition'
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => router.push('/reg')}
-            >
-                войти    
-            </motion.button>
-        )
-    }
 
     return (
         <motion.header 
@@ -97,7 +79,14 @@ export default function Header({TOK}:{TOK:boolean}) {
 
                 {/* Auth Button */}
                 <div className="hidden md:block">
-                    {logout(TOK)}
+                    <motion.button
+                        className='border-2 border-blue-600 rounded-lg px-4 py-2 hover:bg-blue-600 hover:text-white transition'
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={auth? logout : () => router.push('/reg')}
+                    >
+                        {auth?'выйти':'войти'}    
+                    </motion.button>
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -147,10 +136,21 @@ export default function Header({TOK}:{TOK:boolean}) {
                         </Link>
                     ))}
                     <div className="pt-3 border-t border-gray-700">
-                        {logout(TOK)}
+                        <motion.button 
+                            className='border-2 border-blue-600 rounded-lg px-4 py-2 hover:bg-blue-600 hover:text-white transition'
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => router.push('/reg')}
+                        >
+                            войти    
+                        </motion.button>
                     </div>
                 </div>
             </motion.div>
         </motion.header>
     )
+
+    /* return (
+        <div>{auth?'выйти':'войти'}</div>
+    ) */
 }

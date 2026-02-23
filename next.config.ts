@@ -1,4 +1,4 @@
-// next.config.mjs
+/* // next.config.mjs
 import withPWAInit from "@ducanh2912/next-pwa";
 
 const withPWA = withPWAInit({
@@ -12,3 +12,11 @@ const withPWA = withPWAInit({
 export default withPWA({
   // Твои обычные настройки Next.js 16
 });
+ */
+
+//конфиг для дева, в проде нужно отключить webpack и юзать дефолтный
+const nextConfig = {
+  /* здесь ваши настройки */
+};
+
+export default nextConfig;

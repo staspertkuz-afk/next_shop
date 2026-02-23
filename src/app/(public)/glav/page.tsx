@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Load_application from '@/components/load_Aplication'
+import { logout } from "@/app/lib/logout";
 
 export default function Home() {
   return (
